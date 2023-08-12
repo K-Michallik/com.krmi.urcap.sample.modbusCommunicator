@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1691784171085
+Build-Jdk: 1.8.0_362
+Built-By: root
+Bundle-Activator: com.krmi.urcap.sample.modbusCommunicator.impl.Activato
+ r
+Bundle-Category: URCap
+Bundle-ClassPath: .,modbus4j-3.1.0.jar,commons-lang3-3.9.jar
+Bundle-ContactAddress: 123 URCap Street
+Bundle-Copyright: Copyright notice (C)
+Bundle-Description: This is a description of the URCap
+Bundle-LicenseType: License type
+Bundle-ManifestVersion: 2
+Bundle-Name: modbusCommunicator
+Bundle-SymbolicName: com.krmi.urcap.sample.modbusCommunicator
+Bundle-Vendor: URCaps R us Inc.
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: modbus4j,commons-lang3
+Embed-Transitive: true
+Embedded-Artifacts: modbus4j-3.1.0.jar;g="com.github.infiniteautomation"
+ ;a="modbus4j";v="3.1.0",commons-lang3-3.9.jar;g="org.apache.commons";a=
+ "commons-lang3";v="3.9"
+Import-Package: com.ur.urcap.api.contribution;version="[1.9,2)",com.ur.u
+ rcap.api.contribution.installation;version="[1.8,2)",com.ur.urcap.api.c
+ ontribution.installation.swing;version="[1.8,2)",com.ur.urcap.api.domai
+ n;version="[1.11,2)",com.ur.urcap.api.domain.data;version="[1.11,2)",co
+ m.ur.urcap.api.domain.script;version="[1.8,2)",com.ur.urcap.api.domain.
+ userinteraction;version="[1.9,2)",com.ur.urcap.api.domain.userinteracti
+ on.inputvalidation;version="[1.8,2)",com.ur.urcap.api.domain.userintera
+ ction.keyboard;version="[1.8,2)",javax.swing,javax.swing.border,javax.s
+ wing.text,org.apache.commons.logging,org.osgi.framework;version="[1.6,2
+ )"
+Tool: Bnd-2.1.0.20130426-122213
+URCapCompatibility-CB3: false
+URCapCompatibility-eSeries: true
