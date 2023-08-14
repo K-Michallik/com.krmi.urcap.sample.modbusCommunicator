@@ -7,8 +7,6 @@ import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
-// import java.awt.event.ActionEvent;
-// import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -19,6 +17,8 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	private JButton startButton;
 	private JButton stopButton;
 	private JLabel statusLabel;
+	private JLabel headerLabel;
+
 
 	public ModbusCommInstallationNodeView(Style style) {
 		this.style = style;
@@ -27,21 +27,28 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	@Override
 	public void buildUI(JPanel panel, ModbusCommInstallationNodeContribution contribution) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+	
+		panel.add(createHeader(contribution));  // Add this line to include the header
+		panel.add(Box.createRigidArea(new Dimension(0, 20))); // Add some spacing after the header
+	
 		panel.add(createInfo());
 		panel.add(createVerticalSpacing());
-
+	
 		ipAddress.setHorizontalAlignment(JTextField.RIGHT);
 		panel.add(createIPAddressBar(contribution));
-
-		// panel.add(createInput(contribution));
+	
 		panel.add(createVerticalSpacing(style.getLargeVerticalSpacing()));
-
-		// panel.add(createStartStopButtons(contribution));
-		// panel.add(createVerticalSpacing());
-
+	
 		panel.add(createStatusInfo());
 	}
+
+	private Component createHeader(ModbusCommInstallationNodeContribution contribution) {
+		JLabel headerLabel = new JLabel(contribution.getTitle());
+		headerLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Adjust the font and size as needed
+		headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		return headerLabel;
+	}
+	
 
 	private Box createInfo() {
 		Box infoBox = Box.createVerticalBox();
@@ -81,55 +88,6 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 
 		return ipBox;
 	}
-	// private Box createInput(final ModbusCommInstallationNodeContribution contribution) {
-	// 	Box inputBox = Box.createHorizontalBox();
-	// 	inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-	// 	inputBox.add(new JLabel("Popup title:"));
-	// 	inputBox.add(createHorizontalSpacing());
-
-	// 	popupInputField = new JTextField();
-	// 	popupInputField.setFocusable(false);
-	// 	popupInputField.setPreferredSize(style.getInputfieldSize());
-	// 	popupInputField.setMaximumSize(popupInputField.getPreferredSize());
-	// 	popupInputField.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			KeyboardTextInput keyboardInput = contribution.getKeyboardForIpAddress();
-	// 			keyboardInput.show(popupInputField, contribution.getCallbackForIpAddress());
-	// 		}
-	// 	});
-	// 	inputBox.add(popupInputField);
-
-	// 	return inputBox;
-	// }
-
-	// private Box createStartStopButtons(final ModbusCommInstallationNodeContribution contribution) {
-	// 	Box box = Box.createHorizontalBox();
-	// 	box.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-	// 	startButton = new JButton("Start Daemon");
-	// 	startButton.addActionListener(new ActionListener() {
-	// 		@Override
-	// 		public void actionPerformed(ActionEvent e) {
-	// 			contribution.onStartClick();
-	// 		}
-	// 	});
-	// 	box.add(startButton);
-
-	// 	box.add(createHorizontalSpacing());
-
-	// 	stopButton = new JButton("Stop Daemon");
-	// 	stopButton.addActionListener(new ActionListener() {
-	// 		@Override
-	// 		public void actionPerformed(ActionEvent e) {
-	// 			contribution.onStopClick();
-	// 		}
-	// 	});
-	// 	box.add(stopButton);
-
-	// 	return box;
-	// }
 
 	private Box createStatusInfo() {
 		Box box = Box.createHorizontalBox();
@@ -152,10 +110,6 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		return createVerticalSpacing(style.getVerticalSpacing());
 	}
 
-	// public void setPopupText(String t) {
-	// 	popupInputField.setText(t);
-	// }
-
 	public void setStartButtonEnabled(boolean enabled) {
 		startButton.setEnabled(enabled);
 	}
@@ -170,5 +124,9 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 
 	public void setIpAddress(String value) {
 		ipAddress.setText(value);
+	}
+
+	public void updateHeader(String title) {
+		headerLabel.setText(title);
 	}
 }

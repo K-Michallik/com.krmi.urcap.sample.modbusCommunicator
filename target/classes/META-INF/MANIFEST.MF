@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1691784171085
+Bnd-LastModified: 1692019678320
 Build-Jdk: 1.8.0_362
 Built-By: root
 Bundle-Activator: com.krmi.urcap.sample.modbusCommunicator.impl.Activato
@@ -14,7 +14,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: modbusCommunicator
 Bundle-SymbolicName: com.krmi.urcap.sample.modbusCommunicator
 Bundle-Vendor: URCaps R us Inc.
-Bundle-Version: 1.0.0.SNAPSHOT
+Bundle-Version: 1.1.0.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 Embed-Dependency: modbus4j,commons-lang3
 Embed-Transitive: true

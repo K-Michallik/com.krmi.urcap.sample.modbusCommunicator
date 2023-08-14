@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.krmi.urcap.sample.modbusCommunicator.impl.AppTest" time="0.15" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.krmi.urcap.sample.modbusCommunicator.impl.AppTest" time="0.081" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
     <property name="file.encoding.pkg" value="sun.io"/>
     <property name="java.specification.version" value="1.8"/>
     <property name="sun.cpu.isalist" value=""/>
     <property name="sun.jnu.encoding" value="ANSI_X3.4-1968"/>
-    <property name="java.class.path" value="/root/.m2/repository/org/apache/maven/surefire/surefire-booter/2.22.1/surefire-booter-2.22.1.jar:/root/.m2/repository/org/apache/maven/surefire/surefire-api/2.22.1/surefire-api-2.22.1.jar:/root/.m2/repository/org/apache/maven/surefire/surefire-logger-api/2.22.1/surefire-logger-api-2.22.1.jar:/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/target/test-classes:/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/target/classes:/root/.m2/repository/org/osgi/org.osgi.core/4.3.0/org.osgi.core-4.3.0.jar:/root/.m2/repository/com/ur/urcap/api/1.13.0/api-1.13.0.jar:/root/.m2/repository/junit/junit/4.12/junit-4.12.jar:/root/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/root/.m2/repository/com/github/infiniteautomation/modbus4j/3.1.0/modbus4j-3.1.0.jar:/root/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/root/.m2/repository/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar:/root/.m2/repository/org/apache/maven/surefire/surefire-junit4/2.22.1/surefire-junit4-2.22.1.jar"/>
+    <property name="java.class.path" value="/root/.m2/repository/org/apache/maven/surefire/surefire-booter/2.22.1/surefire-booter-2.22.1.jar:/root/.m2/repository/org/apache/maven/surefire/surefire-api/2.22.1/surefire-api-2.22.1.jar:/root/.m2/repository/org/apache/maven/surefire/surefire-logger-api/2.22.1/surefire-logger-api-2.22.1.jar:/workspaces/universal_robots_sdk-main/com.krmi.urcap.sample.modbusCommunicator/target/test-classes:/workspaces/universal_robots_sdk-main/com.krmi.urcap.sample.modbusCommunicator/target/classes:/root/.m2/repository/org/osgi/org.osgi.core/4.3.0/org.osgi.core-4.3.0.jar:/root/.m2/repository/com/ur/urcap/api/1.13.0/api-1.13.0.jar:/root/.m2/repository/junit/junit/4.12/junit-4.12.jar:/root/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/root/.m2/repository/com/github/infiniteautomation/modbus4j/3.1.0/modbus4j-3.1.0.jar:/root/.m2/repository/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar:/root/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/root/.m2/repository/org/apache/maven/surefire/surefire-junit4/2.22.1/surefire-junit4-2.22.1.jar"/>
     <property name="java.vm.vendor" value="Private Build"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
@@ -16,14 +16,14 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/target/surefire 2023-08-11T22-02-47_234-jvmRun1 surefire4847120799246258672tmp surefire_04218609072224384446tmp"/>
-    <property name="surefire.test.class.path" value="/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/target/test-classes:/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/target/classes:/root/.m2/repository/org/osgi/org.osgi.core/4.3.0/org.osgi.core-4.3.0.jar:/root/.m2/repository/com/ur/urcap/api/1.13.0/api-1.13.0.jar:/root/.m2/repository/junit/junit/4.12/junit-4.12.jar:/root/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/root/.m2/repository/com/github/infiniteautomation/modbus4j/3.1.0/modbus4j-3.1.0.jar:/root/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/root/.m2/repository/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar:"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /workspaces/universal_robots_sdk-main/com.krmi.urcap.sample.modbusCommunicator/target/surefire 2023-08-14T15-27-56_089-jvmRun1 surefire1738444326746210390tmp surefire_03270576516314201624tmp"/>
+    <property name="surefire.test.class.path" value="/workspaces/universal_robots_sdk-main/com.krmi.urcap.sample.modbusCommunicator/target/test-classes:/workspaces/universal_robots_sdk-main/com.krmi.urcap.sample.modbusCommunicator/target/classes:/root/.m2/repository/org/osgi/org.osgi.core/4.3.0/org.osgi.core-4.3.0.jar:/root/.m2/repository/com/ur/urcap/api/1.13.0/api-1.13.0.jar:/root/.m2/repository/junit/junit/4.12/junit-4.12.jar:/root/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/root/.m2/repository/com/github/infiniteautomation/modbus4j/3.1.0/modbus4j-3.1.0.jar:/root/.m2/repository/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar:/root/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/root"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="java.home" value="/usr/lib/jvm/java-8-openjdk-amd64/jre"/>
-    <property name="basedir" value="/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator"/>
+    <property name="basedir" value="/workspaces/universal_robots_sdk-main/com.krmi.urcap.sample.modbusCommunicator"/>
     <property name="file.separator" value="/"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
@@ -43,7 +43,7 @@
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="java.io.tmpdir" value="/tmp"/>
     <property name="java.version" value="1.8.0_362"/>
-    <property name="user.dir" value="/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator"/>
+    <property name="user.dir" value="/workspaces/universal_robots_sdk-main/com.krmi.urcap.sample.modbusCommunicator"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
@@ -57,5 +57,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="testApp" classname="com.krmi.urcap.sample.modbusCommunicator.impl.AppTest" time="0.008"/>
+  <testcase name="testApp" classname="com.krmi.urcap.sample.modbusCommunicator.impl.AppTest" time="0.004"/>
 </testsuite>
