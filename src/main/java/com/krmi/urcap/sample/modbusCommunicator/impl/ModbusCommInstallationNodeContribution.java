@@ -1,6 +1,8 @@
 package com.krmi.urcap.sample.modbusCommunicator.impl;
 
+import com.serotonin.modbus4j.code.DataType;
 import com.serotonin.modbus4j.exception.ModbusInitException;
+import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.ur.urcap.api.contribution.InstallationNodeContribution;
 import com.ur.urcap.api.contribution.installation.CreationContext;
 import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
@@ -12,16 +14,17 @@ import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputFactory;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ModbusCommInstallationNodeContribution implements InstallationNodeContribution {
 	public static final int PORT = 40405;
 	private static final String IP_ADDRESS = "IpAddress";
-	private static final String IP_ADDRESS_DEFAULT = "192.168.199.1";
+	private static final String IP_ADDRESS_DEFAULT = "127.0.0.1";
 	private static final int slaveId = 255;
-	private static final String TITLE_KEY = "title";
-	private static final String DEFAULT_TITLE = "Modbus Communicator";
+	private static final int dType = DataType.TWO_BYTE_INT_SIGNED;
 
 	private DataModel model;
 
@@ -47,6 +50,8 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 
 	@Override
 	public void openView() {
+		view.setIpAddress(getIpAddress());
+		
 		//UI updates from non-GUI threads must use EventQueue.invokeLater (or SwingUtilities.invokeLater)
 		uiTimer = new Timer(true);
 		uiTimer.schedule(new TimerTask() {
@@ -61,20 +66,8 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 					}
 				});
 			}
-		}, 0, 1000);
+		}, 0, 2000);
 	}
-
-	// public void openView() {
-	// 	uiTimer = new Timer(true);
-	// 	uiTimer.schedule(new TimerTask() {
-	// 		@Override
-	// 		public void run() {
-	// 			if (!pauseTimer) {
-	// 				updateUI();
-	// 			}
-	// 		}
-	// 	}, 0, 1000);
-	// }
 
 	@Override
 	public void closeView() {
@@ -89,24 +82,36 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 	}
 
 	private void updateUI() {
-		view.updateHeader(getTitle());
+		String text = "";
 		try {
-			Modbus4jUtils.getMaster(IP_ADDRESS);
+			modbusClient.getMaster(getIpAddress()).testSlaveNode(0);
+			text = "Connected to Modbus server.";
 			modbusConnected = true;
-			System.out.println("Connected to Modbus server.");
 		} catch (ModbusInitException e) {
 			modbusConnected = false;
-			System.out.println("Could not connect at: "+ IP_ADDRESS);
-			e.printStackTrace();
+			text = "Could not connect to Modbus server; InitException.";
+			// e.printStackTrace();
+		} catch (Exception e) {
+			modbusConnected = false;
+			text = "Other catch exception";
+			// e.printStackTrace();
 		}
 		if (modbusConnected){
 			try {
-				Number num000 = modbusClient.readHoldingRegister(slaveId, PORT, PORT, IP_ADDRESS);
+				Number num000 = modbusClient.readHoldingRegister(slaveId, 250, dType, getIpAddress());
 				System.out.println("Holding register 0 is: " + num000.toString());
+				view.setStatusLabel(text);
+			} catch (ModbusTransportException e) {
+				modbusConnected = false;
+				text = "Could not connect to Modbus server; TransportException.";
+				view.setStatusLabel(text);
+				// e.printStackTrace();
 			} catch (Exception e) {
-				e.printStackTrace();
+				modbusConnected = false;
+				text = "Could not connect to Modbus server; general Exception.";
+				view.setStatusLabel(text);
+				// e.printStackTrace();
 			}
-			
 		}
 
 	}
@@ -132,11 +137,7 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 		return model.isSet(IP_ADDRESS);
 	}
 
-	public String getTitle() {
-		return model.get(TITLE_KEY, DEFAULT_TITLE);
-	}
-	
-	public void setTitle(String title) {
-		model.set(TITLE_KEY, title);
+	public String getIpAddress() {
+		return model.get(IP_ADDRESS, IP_ADDRESS_DEFAULT);
 	}
 }

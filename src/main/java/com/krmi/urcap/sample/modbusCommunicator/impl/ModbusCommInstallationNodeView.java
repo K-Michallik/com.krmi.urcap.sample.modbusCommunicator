@@ -17,7 +17,6 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	private JButton startButton;
 	private JButton stopButton;
 	private JLabel statusLabel;
-	private JLabel headerLabel;
 
 
 	public ModbusCommInstallationNodeView(Style style) {
@@ -27,9 +26,6 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	@Override
 	public void buildUI(JPanel panel, ModbusCommInstallationNodeContribution contribution) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-	
-		panel.add(createHeader(contribution));  // Add this line to include the header
-		panel.add(Box.createRigidArea(new Dimension(0, 20))); // Add some spacing after the header
 	
 		panel.add(createInfo());
 		panel.add(createVerticalSpacing());
@@ -41,14 +37,6 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	
 		panel.add(createStatusInfo());
 	}
-
-	private Component createHeader(ModbusCommInstallationNodeContribution contribution) {
-		JLabel headerLabel = new JLabel(contribution.getTitle());
-		headerLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Adjust the font and size as needed
-		headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		return headerLabel;
-	}
-	
 
 	private Box createInfo() {
 		Box infoBox = Box.createVerticalBox();
@@ -124,9 +112,5 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 
 	public void setIpAddress(String value) {
 		ipAddress.setText(value);
-	}
-
-	public void updateHeader(String title) {
-		headerLabel.setText(title);
 	}
 }

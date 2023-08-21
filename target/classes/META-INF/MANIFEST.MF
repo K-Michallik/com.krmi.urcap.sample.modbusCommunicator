@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1692019678320
+Bnd-LastModified: 1692377415814
 Build-Jdk: 1.8.0_362
 Built-By: root
 Bundle-Activator: com.krmi.urcap.sample.modbusCommunicator.impl.Activato
@@ -21,16 +21,20 @@ Embed-Transitive: true
 Embedded-Artifacts: modbus4j-3.1.0.jar;g="com.github.infiniteautomation"
  ;a="modbus4j";v="3.1.0",commons-lang3-3.9.jar;g="org.apache.commons";a=
  "commons-lang3";v="3.9"
+Export-Package: com.krmi.urcap.sample.modbusCommunicator.toolbar;version
+ ="1.1.0.SNAPSHOT";uses:="com.ur.urcap.api.contribution.toolbar,com.ur.u
+ rcap.api.contribution.toolbar.swing,javax.swing"
 Import-Package: com.ur.urcap.api.contribution;version="[1.9,2)",com.ur.u
  rcap.api.contribution.installation;version="[1.8,2)",com.ur.urcap.api.c
- ontribution.installation.swing;version="[1.8,2)",com.ur.urcap.api.domai
- n;version="[1.11,2)",com.ur.urcap.api.domain.data;version="[1.11,2)",co
- m.ur.urcap.api.domain.script;version="[1.8,2)",com.ur.urcap.api.domain.
- userinteraction;version="[1.9,2)",com.ur.urcap.api.domain.userinteracti
- on.inputvalidation;version="[1.8,2)",com.ur.urcap.api.domain.userintera
- ction.keyboard;version="[1.8,2)",javax.swing,javax.swing.border,javax.s
- wing.text,org.apache.commons.logging,org.osgi.framework;version="[1.6,2
- )"
+ ontribution.installation.swing;version="[1.8,2)",com.ur.urcap.api.contr
+ ibution.toolbar;version="[1.8,2)",com.ur.urcap.api.contribution.toolbar
+ .swing;version="[1.8,2)",com.ur.urcap.api.domain;version="[1.11,2)",com
+ .ur.urcap.api.domain.data;version="[1.11,2)",com.ur.urcap.api.domain.sc
+ ript;version="[1.8,2)",com.ur.urcap.api.domain.userinteraction;version=
+ "[1.9,2)",com.ur.urcap.api.domain.userinteraction.inputvalidation;versi
+ on="[1.8,2)",com.ur.urcap.api.domain.userinteraction.keyboard;version="
+ [1.8,2)",javax.imageio,javax.swing,javax.swing.border,javax.swing.text,
+ org.apache.commons.logging,org.osgi.framework;version="[1.6,2)"
 Tool: Bnd-2.1.0.20130426-122213
 URCapCompatibility-CB3: false
 URCapCompatibility-eSeries: true

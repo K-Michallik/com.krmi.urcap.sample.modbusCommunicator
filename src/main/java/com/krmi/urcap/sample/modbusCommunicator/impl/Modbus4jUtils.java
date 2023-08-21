@@ -10,7 +10,7 @@ import com.serotonin.modbus4j.locator.BaseLocator;
 
 public class Modbus4jUtils {
 	
-	static ModbusFactory modbusFactory;
+	static ModbusFactory modbusFactory = new ModbusFactory();
 	
 	public Modbus4jUtils() {
 		// TODO Auto-generated constructor stub
