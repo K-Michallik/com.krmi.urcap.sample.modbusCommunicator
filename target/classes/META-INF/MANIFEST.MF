@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1692377415814
+Bnd-LastModified: 1692647923431
 Build-Jdk: 1.8.0_362
 Built-By: root
 Bundle-Activator: com.krmi.urcap.sample.modbusCommunicator.impl.Activato

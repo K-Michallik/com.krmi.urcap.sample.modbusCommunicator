@@ -17,6 +17,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	private JButton startButton;
 	private JButton stopButton;
 	private JLabel statusLabel;
+	private Box ipBox;
 
 
 	public ModbusCommInstallationNodeView(Style style) {
@@ -32,7 +33,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	
 		ipAddress.setHorizontalAlignment(JTextField.RIGHT);
 		panel.add(createIPAddressBar(contribution));
-	
+
 		panel.add(createVerticalSpacing(style.getLargeVerticalSpacing()));
 	
 		panel.add(createStatusInfo());
@@ -56,7 +57,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	}
 
 	private Box createIPAddressBar(final ModbusCommInstallationNodeContribution contribution) {
-		Box ipBox = Box.createHorizontalBox();
+		ipBox = Box.createHorizontalBox();
 		ipBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 		ipBox.add(new JLabel("IP Address:"));
 		ipBox.add(createHorizontalSpacing());
@@ -98,19 +99,20 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		return createVerticalSpacing(style.getVerticalSpacing());
 	}
 
-	public void setStartButtonEnabled(boolean enabled) {
-		startButton.setEnabled(enabled);
-	}
-
-	public void setStopButtonEnabled(boolean enabled) {
-		stopButton.setEnabled(enabled);
-	}
-
 	public void setStatusLabel(String text) {
 		statusLabel.setText(text);
 	}
 
 	public void setIpAddress(String value) {
 		ipAddress.setText(value);
+	}
+
+	public void setTextFieldColor (Color color) {
+		try {
+			ipBox.setBackground(color);
+		}
+		catch (Exception e) {
+			ipBox.setBackground(Color.WHITE);
+		}
 	}
 }

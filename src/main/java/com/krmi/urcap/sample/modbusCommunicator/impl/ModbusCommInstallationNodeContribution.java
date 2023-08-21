@@ -3,6 +3,7 @@ package com.krmi.urcap.sample.modbusCommunicator.impl;
 import com.serotonin.modbus4j.code.DataType;
 import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
+import com.ur.urcap.api.contribution.DaemonContribution;
 import com.ur.urcap.api.contribution.InstallationNodeContribution;
 import com.ur.urcap.api.contribution.installation.CreationContext;
 import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
@@ -25,14 +26,14 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 	private static final String IP_ADDRESS_DEFAULT = "127.0.0.1";
 	private static final int slaveId = 255;
 	private static final int dType = DataType.TWO_BYTE_INT_SIGNED;
+	private static final String ENABLED_KEY = "enabled";
+	private static final String modbusReachable = "modbusReachable";
 
 	private DataModel model;
 
 	private final ModbusCommInstallationNodeView view;
 	private Timer uiTimer;
 	private boolean pauseTimer = false;
-	private boolean modbusConnected = false;
-
 	private KeyboardInputFactory keyboardInputFactory;
 	private final InputValidationFactory inputValidationFactory;
 
@@ -46,6 +47,7 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 		if (context.getNodeCreationType() == CreationContext.NodeCreationType.NEW) {
 			model.set(IP_ADDRESS, IP_ADDRESS_DEFAULT);
 		}
+		validateIpAddress();
 	}
 
 	@Override
@@ -66,7 +68,7 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 					}
 				});
 			}
-		}, 0, 2000);
+		}, 0, 1000);
 	}
 
 	@Override
@@ -81,39 +83,53 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 
 	}
 
-	private void updateUI() {
+	// private void updateUI() {
+	// 	String text = "";
+	// 	try {
+	// 		modbusClient.getMaster(getIpAddress()).testSlaveNode(0);
+	// 		text = "Connected to Modbus server.";
+	// 		modbusConnected = true;
+	// 	} catch (ModbusInitException e) {
+	// 		modbusConnected = false;
+	// 		text = "Could not connect to Modbus server; InitException.";
+	// 		// e.printStackTrace();
+	// 	} catch (Exception e) {
+	// 		modbusConnected = false;
+	// 		text = "Other catch exception";
+	// 		// e.printStackTrace();
+	// 	}
+	// 	if (modbusConnected){
+	// 		try {
+	// 			Number num000 = modbusClient.readHoldingRegister(slaveId, 250, dType, getIpAddress());
+	// 			System.out.println("Holding register 0 is: " + num000.toString());
+	// 			view.setStatusLabel(text);
+	// 		} catch (ModbusTransportException e) {
+	// 			modbusConnected = false;
+	// 			text = "Could not connect to Modbus server; TransportException.";
+	// 			view.setStatusLabel(text);
+	// 			// e.printStackTrace();
+	// 		} catch (Exception e) {
+	// 			modbusConnected = false;
+	// 			text = "Could not connect to Modbus server; general Exception.";
+	// 			view.setStatusLabel(text);
+	// 			// e.printStackTrace();
+	// 		}
+	// 	}
+
+	// }
+
+		private void updateUI() {
+		boolean state = model.get(modbusReachable, false);
 		String text = "";
-		try {
-			modbusClient.getMaster(getIpAddress()).testSlaveNode(0);
-			text = "Connected to Modbus server.";
-			modbusConnected = true;
-		} catch (ModbusInitException e) {
-			modbusConnected = false;
-			text = "Could not connect to Modbus server; InitException.";
-			// e.printStackTrace();
-		} catch (Exception e) {
-			modbusConnected = false;
-			text = "Other catch exception";
-			// e.printStackTrace();
-		}
-		if (modbusConnected){
-			try {
-				Number num000 = modbusClient.readHoldingRegister(slaveId, 250, dType, getIpAddress());
-				System.out.println("Holding register 0 is: " + num000.toString());
-				view.setStatusLabel(text);
-			} catch (ModbusTransportException e) {
-				modbusConnected = false;
-				text = "Could not connect to Modbus server; TransportException.";
-				view.setStatusLabel(text);
-				// e.printStackTrace();
-			} catch (Exception e) {
-				modbusConnected = false;
-				text = "Could not connect to Modbus server; general Exception.";
-				view.setStatusLabel(text);
-				// e.printStackTrace();
-			}
+		if (state) {
+			view.setTextFieldColor(Color.GREEN);
+			text = "Modbus server is reachable";
+		} else {
+			view.setTextFieldColor(Color.RED);
+			text = "Modbus server is not reachable";
 		}
 
+		view.setStatusLabel(text);
 	}
 
 	public KeyboardTextInput getKeyboardForIpAddress() {
@@ -128,13 +144,41 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 			public void onOk(String value) {
 				model.set(IP_ADDRESS,value);
 				view.setIpAddress(value);
+				validateIpAddress();
 			}
 		};
 	}
+
+	private void validateIpAddress() {
+		new Thread (new Runnable() {
+			@Override
+			public void run() {
+				try {
+					pauseTimer = true;
+					if (modbusClient.getMaster(getIpAddress()).testSlaveNode(0)) {
+						model.set(modbusReachable, true);
+					}
+					else {
+						model.set(modbusReachable, false);
+					}
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+				finally {
+					pauseTimer = false;
+					}
+				}
+		}).start();
+	}
+
+	private Boolean isModbusEnabled() {
+		return model.get(ENABLED_KEY, true);
+	}
 	
 	//TODO: Add check to make sure modbus server is reachable.
-	public boolean isDefined() {
-		return model.isSet(IP_ADDRESS);
+	public boolean isReachable() {
+		return model.isSet(IP_ADDRESS) && model.get(modbusReachable, false);
 	}
 
 	public String getIpAddress() {
