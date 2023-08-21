@@ -43,17 +43,24 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 
     private Timer uiTimer;
     private Boolean pauseTimer = false;
-    private boolean modbusConnected = false;
 
-    //Labels for the Toolbar GUI.
+    //Labels and status for the Toolbar GUI.
     private JLabel di1Label = new JLabel("Digital Input 1");
+    private int di1Status = 0;
     private JLabel di2Label = new JLabel("Digital Input 2");
+    private int di2Status = 0;
     private JLabel do1Label = new JLabel("Digital Output 1");
+    private int do1Status = 0;
     private JLabel do2Label = new JLabel("Digital Output 2");
+    private int do2Status = 0;
     private JLabel holdReg130Label = new JLabel("Register Input 130:");
+    private int holdReg130Status = 0;
     private JLabel holdReg130ValLabel = new JLabel("Value");
+    private int holdReg130Val = 0;
     private JLabel holdReg131Label = new JLabel("Register Input 131:");
+    private int holdReg131Status = 0;
     private JLabel holdReg131ValLabel = new JLabel("Value");
+    private int holdReg131Val = 0;
 
 
     enum readMode {
@@ -152,16 +159,6 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		inputPanel.add(verticalGlue);
-		
-		JPanel outputPanel = new JPanel();
-        outputPanel.setBackground(new Color(176, 188, 191));
-		ioPanel.add(outputPanel);
-		outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
-		
-		JLabel doHeader = new JLabel("Outputs");
-		doHeader.setFont(new Font("Roboto", Font.BOLD, 14));
-		outputPanel.add(doHeader);
-
     }
 
 
@@ -172,12 +169,19 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 		uiTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
+                if (contribution.isReachable()) {
+                    updateAllSignals();
+                }
+                else {
+                    di1Status = 0;
+                    di2Status = 0;
+                    holdReg130Status = 0;
+                    holdReg131Status = 0;
+                }
 				EventQueue.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						if (!pauseTimer) {
-							modbusMonitor();
-						}
+						updateUI();
 					}
 				});
 			}
@@ -192,59 +196,35 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 		}
     }
 
-    private void modbusMonitor() {
-        String text = "";
-		try {
-			modbusClient.getMaster(contribution.getIpAddress());
-
-			text = "Connected to Modbus server.";
-			modbusConnected = modbusClient.getMaster(contribution.getIpAddress()).isConnected();
-            System.out.println("Modbus server initialization is: "+ modbusConnected);
-		} catch (ModbusInitException e) {
-			modbusConnected = false;
-			text = "Could not connect to Modbus server; InitException.";
-			// e.printStackTrace();
-		} catch (Exception e) {
-			modbusConnected = false;
-			text = "Other catch exception";
-			// e.printStackTrace();
-		}
-
-        if (modbusConnected){
-            updateSignal(readMode.COIL, 16, di1Label);
-            updateSignal(readMode.COIL, 17,  di2Label);
-            updateSignal(readMode.INPUTREGISTER, 130, holdReg130Label, holdReg130ValLabel);
-            updateSignal(readMode.INPUTREGISTER, 131, holdReg131Label, holdReg131ValLabel);
-        }
-
+    private void updateAllSignals() {
+        int[] tmpResult = updateSignal(readMode.COIL, 1);
+        di1Status = tmpResult[0];
+        tmpResult = updateSignal(readMode.COIL, 2);
+        di2Status = tmpResult[0];
+        tmpResult = updateSignal(readMode.INPUTREGISTER, 130);
+        holdReg130Status = tmpResult[0];
+        holdReg130Val = tmpResult[1];
+        tmpResult = updateSignal(readMode.INPUTREGISTER, 131);
+        holdReg131Status = tmpResult[0];
+        holdReg131Val = tmpResult[1];
     }
 
-    //Updates boolean signals which don't have a value label.
-    private void updateSignal(readMode mode, int registerNum, JLabel label){
-        updateSignal(mode, registerNum, label, null);
-    }
-
-    private void updateSignal(readMode mode, int registerNum, JLabel label, JLabel registerValue){
+    private int[] updateSignal(readMode mode, int registerNum){
         // Read and update the coil response
         if (readMode.COIL == mode) {
             try {
                 Boolean coilResponse = modbusClient.readCoilStatus(slaveId, registerNum, contribution.getIpAddress());
                 if (coilResponse) {
-                    label.setIcon(getIcon("connected"));
+                    return new int[] {1,0};
                 }
                 else {
-                    label.setIcon(getIcon("disconnected"));
+                    return new int[] {2,0};
                 }
             }
-            catch (ModbusTransportException e) {
-                System.out.println("Transport error");
-                // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
-            }
             catch (Exception e) {
-                System.out.println("General error");
+                System.out.println("Signal error");
                 // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
+                return new int[] {0,0};
             }
         }
 
@@ -252,59 +232,56 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
             try {
                 Boolean discInputResponse = modbusClient.readHoldingRegisterBit(slaveId, registerNum, dType, contribution.getIpAddress());
                 if (discInputResponse) {
-                    label.setIcon(getIcon("connected"));
+                    return new int[] {1,0};
                 }
                 else {
-                    label.setIcon(getIcon("disconnected"));
+                    return new int[] {2,0};
                 }
             }
-            catch (ModbusTransportException e) {
-                System.out.println("Transport error");
-                // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
-            }
             catch (Exception e) {
-                System.out.println("General error");
+                System.out.println("Signal error");
                 // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
+                return new int[] {0,0};
             }
         }
 
         if (readMode.INPUTREGISTER == mode) {
             try {
                 Number inputRegResponse = modbusClient.readInputRegisters(slaveId, registerNum, dType, contribution.getIpAddress());
-                label.setIcon(getIcon("connected"));
-                registerValue.setText(inputRegResponse.toString());
-            }
-            catch (ModbusTransportException e) {
-                System.out.println("Transport error");
-                // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
+                return new int[] {1,inputRegResponse.intValue()};
+                
             }
             catch (Exception e) {
-                System.out.println("General error");
+                System.out.println("Signal error");
                 // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
+                return new int[] {0,0};
             }
         }
 
         if (readMode.HOLDINGREGISTER == mode) {
             try {
                 Number holdRegResponse = modbusClient.readHoldingRegister(slaveId, registerNum, dType, contribution.getIpAddress());
-                label.setIcon(getIcon("connected"));
-                registerValue.setText(holdRegResponse.toString());
-            }
-            catch (ModbusTransportException e) {
-                System.out.println("Transport error");
-                // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
+                return new int[] {1,holdRegResponse.intValue()};
             }
             catch (Exception e) {
-                System.out.println("General error");
+                System.out.println("Signal error");
                 // e.printStackTrace();
-                label.setIcon(getIcon("warning"));
+                return new int[] {0,0};
             }
         }
+        else{
+            System.err.println("Invalid readmode selected!");
+            return new int[] {0,0};
+        }
+    }
+
+    private void updateUI() {
+        updateSignalIcon(di1Label, di1Status);
+        updateSignalIcon(di2Label, di2Status);
+        updateSignalIcon(holdReg130Label, holdReg130Status);
+        holdReg130ValLabel.setText(Integer.toString(holdReg130Val));
+        updateSignalIcon(holdReg131Label, holdReg131Status);
+        holdReg131ValLabel.setText(Integer.toString(holdReg131Val));
     }
 
     private Box createHeader() {
@@ -336,6 +313,23 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
             e.printStackTrace();
         }
         return new ImageIcon(image.getScaledInstance(25, -1, Image.SCALE_SMOOTH));
+    }
+
+    public void updateSignalIcon (JLabel label, int signalStatus){
+        if (signalStatus == 0) {
+            label.setIcon(getIcon("warning"));
+        } else if (signalStatus == 1) {
+            label.setIcon(getIcon("connected"));
+        } else if (signalStatus == 2) {
+            label.setIcon(getIcon("disconnected"));
+        } else {
+            label.setIcon(getIcon("warning"));
+            System.out.println("Here be dragons. Signal status is: " + signalStatus);
+        }
+    }
+
+    public void updateRegisterValue(JLabel label, int value){
+        label.setText(Integer.toString(value));
     }
     
 }

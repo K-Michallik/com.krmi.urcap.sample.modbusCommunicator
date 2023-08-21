@@ -107,12 +107,13 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		ipAddress.setText(value);
 	}
 
-	public void setTextFieldColor (Color color) {
-		try {
-			ipBox.setBackground(color);
+	public void updateTextFieldColor (boolean isConnected) {
+		if (isConnected) {
+			ipAddress.setBackground(Color.GREEN);
 		}
-		catch (Exception e) {
-			ipBox.setBackground(Color.WHITE);
+		else {
+			ipAddress.setBackground(Color.RED);
 		}
+		// ipBox.setOpaque(true);
 	}
 }

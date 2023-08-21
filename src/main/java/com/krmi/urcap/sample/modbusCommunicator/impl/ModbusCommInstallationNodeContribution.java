@@ -122,13 +122,12 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 		boolean state = model.get(modbusReachable, false);
 		String text = "";
 		if (state) {
-			view.setTextFieldColor(Color.GREEN);
 			text = "Modbus server is reachable";
 		} else {
-			view.setTextFieldColor(Color.RED);
 			text = "Modbus server is not reachable";
 		}
 
+		view.updateTextFieldColor(state);
 		view.setStatusLabel(text);
 	}
 
