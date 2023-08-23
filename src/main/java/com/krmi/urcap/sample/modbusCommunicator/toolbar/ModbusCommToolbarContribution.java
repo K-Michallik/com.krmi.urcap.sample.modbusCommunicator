@@ -25,15 +25,12 @@ import javax.swing.SwingConstants;
 import com.krmi.urcap.sample.modbusCommunicator.impl.Modbus4jUtils;
 import com.krmi.urcap.sample.modbusCommunicator.impl.ModbusCommInstallationNodeContribution;
 import com.serotonin.modbus4j.code.DataType;
-import com.serotonin.modbus4j.exception.ModbusInitException;
-import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.ur.urcap.api.contribution.toolbar.ToolbarAPIProvider;
 import com.ur.urcap.api.contribution.toolbar.ToolbarContext;
 import com.ur.urcap.api.contribution.toolbar.swing.SwingToolbarContribution;
 
 public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 
-    private static final int HEADER_FONT_SIZE = 24;
     private static final int VERTICAL_SPACE = 10;
 
     private final ToolbarAPIProvider apiProvider;
@@ -49,10 +46,6 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
     private int di1Status = 0;
     private JLabel di2Label = new JLabel("Digital Input 2");
     private int di2Status = 0;
-    private JLabel do1Label = new JLabel("Digital Output 1");
-    private int do1Status = 0;
-    private JLabel do2Label = new JLabel("Digital Output 2");
-    private int do2Status = 0;
     private JLabel holdReg130Label = new JLabel("Register Input 130:");
     private int holdReg130Status = 0;
     private JLabel holdReg130ValLabel = new JLabel("Value");
@@ -82,14 +75,13 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
         System.out.println("IP address is: "+ contribution.getIpAddress());
 
-        JLabel lblNewLabel = new JLabel("Modbus Communicator");
-		lblNewLabel.setFont(new Font("Roboto", Font.BOLD, 20));
-		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblNewLabel.setBackground(new Color(240, 240, 240));
-		panel.add(lblNewLabel);
+        JLabel titleLabel = new JLabel("Modbus Communicator");
+		titleLabel.setFont(new Font("Roboto", Font.BOLD, 24));
+		titleLabel.setVerticalAlignment(SwingConstants.TOP);
+		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(titleLabel);
 
-		panel.add(createVerticalSpace());
+		panel.add(createVerticalSpace(20));
 		
 		JPanel ioPanel = new JPanel();
 		panel.add(ioPanel);
@@ -167,6 +159,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 		uiTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
+                //Signal checking is split into a separate thread from updating the UI.
                 if (contribution.isReachable()) {
                     updateAllSignals();
                 }
@@ -176,6 +169,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
                     holdReg130Status = 0;
                     holdReg131Status = 0;
                 }
+                //UI updates on the Event Dispatch Thread (EDT).
 				EventQueue.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -195,7 +189,8 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
     }
 
     private void updateAllSignals() {
-        int[] tmpResult = updateSignal(readMode.COIL, 16);
+        //Updates all signals and adjusts their corresponding global variables.
+        int[] tmpResult = updateSignal(readMode.COIL, 1);
         di1Status = tmpResult[0];
         tmpResult = updateSignal(readMode.COIL, 2);
         di2Status = tmpResult[0];
@@ -274,6 +269,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
     }
 
     private void updateUI() {
+        //Update signal icons based on updateSignal() response.
         updateSignalIcon(di1Label, di1Status);
         updateSignalIcon(di2Label, di2Status);
         updateSignalIcon(holdReg130Label, holdReg130Status);
@@ -282,27 +278,14 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
         holdReg131ValLabel.setText(Integer.toString(holdReg131Val));
     }
 
-    private Box createHeader() {
-		Box headerBox = Box.createHorizontalBox();
-		headerBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		JLabel header = new JLabel("Modbus Communicator");
-		header.setFont(header.getFont().deriveFont(Font.BOLD, HEADER_FONT_SIZE));
-		headerBox.add(header);
-		return headerBox;
-	}
-
     private Component createVerticalSpace() {
 		return Box.createRigidArea(new Dimension(0, VERTICAL_SPACE));
 	}
 
-    /**
-     * Reads in the specified icon file from the icons folder and rescales it to
-     * 25x25px
-     * 
-     * @param icon - String name of icon file
-     * @return icon in ImageIcon class format
-     */
+    private Component createVerticalSpace(int size) {
+		return Box.createRigidArea(new Dimension(0, size));
+	}
+
     public Icon getIcon(String icon) {
         BufferedImage image = null;
         try {

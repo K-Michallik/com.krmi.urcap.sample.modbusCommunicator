@@ -32,7 +32,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		ipAddress.setHorizontalAlignment(JTextField.RIGHT);
 		panel.add(createIPAddressBar(contribution));
 
-		panel.add(createVerticalSpacing(style.getLargeVerticalSpacing()));
+		panel.add(createVerticalSpacing());
 	
 		panel.add(createStatusInfo());
 	}
@@ -48,7 +48,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		pane.setParagraphAttributes(attributeSet, false);
 		pane.setText("Enter the IP address of the Modbus server to connect to.");
 		pane.setEditable(false);
-		pane.setMaximumSize(pane.getPreferredSize());
+		pane.setMaximumSize(new Dimension(Integer.MAX_VALUE, pane.getPreferredSize().height));
 		pane.setBackground(infoBox.getBackground());
 		infoBox.add(pane);
 		return infoBox;
