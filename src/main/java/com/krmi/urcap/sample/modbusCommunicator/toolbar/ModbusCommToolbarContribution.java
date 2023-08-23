@@ -215,7 +215,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
                 }
             }
             catch (Exception e) {
-                System.out.println("Signal error");
+                // System.out.println("Signal error");
                 // e.printStackTrace();
                 return new int[] {0,0};
             }
@@ -232,7 +232,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
                 }
             }
             catch (Exception e) {
-                System.out.println("Signal error");
+                // System.out.println("Signal error");
                 // e.printStackTrace();
                 return new int[] {0,0};
             }
@@ -245,7 +245,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
                 
             }
             catch (Exception e) {
-                System.out.println("Signal error");
+                // System.out.println("Signal error");
                 // e.printStackTrace();
                 return new int[] {0,0};
             }
@@ -257,7 +257,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
                 return new int[] {1,holdRegResponse.intValue()};
             }
             catch (Exception e) {
-                System.out.println("Signal error");
+                // System.out.println("Signal error");
                 // e.printStackTrace();
                 return new int[] {0,0};
             }
