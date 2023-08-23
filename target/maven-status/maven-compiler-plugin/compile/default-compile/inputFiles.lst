@@ -1,9 +1,0 @@
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/toolbar/ModbusCommToolbarService.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/toolbar/ModbusCommToolbarContribution.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/impl/ModbusCommInstallationNodeContribution.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/impl/V5Style.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/impl/Activator.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/impl/ModbusCommInstallationNodeService.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/impl/Style.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/impl/Modbus4jUtils.java
-/workspaces/universal_robots_sdk/com.krmi.urcap.sample.modbusCommunicator/src/main/java/com/krmi/urcap/sample/modbusCommunicator/impl/ModbusCommInstallationNodeView.java

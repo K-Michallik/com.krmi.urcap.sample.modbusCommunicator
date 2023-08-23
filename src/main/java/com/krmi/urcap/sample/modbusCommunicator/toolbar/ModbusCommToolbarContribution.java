@@ -13,6 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -42,7 +43,6 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
     private static int slaveId = 255;
 
     private Timer uiTimer;
-    private Boolean pauseTimer = false;
 
     //Labels and status for the Toolbar GUI.
     private JLabel di1Label = new JLabel("Digital Input 1");
@@ -129,10 +129,9 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 		
         //Input Register 130 label
 		holdReg130Label.setFont(new Font("Roboto", Font.PLAIN, 12));
+        holdReg130Label.setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
 		holdReg130Box.add(holdReg130Label);
 		
-		Component holdRegStrut = Box.createHorizontalStrut(20);
-		holdReg130Box.add(holdRegStrut);
 		
         //Input Register 130 value
 		holdReg130ValLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
@@ -147,18 +146,17 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 		
         //Input Register 131 label
 		holdReg131Label.setFont(new Font("Roboto", Font.PLAIN, 12));
+        holdReg131Label.setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
 		holdReg131Box.add(holdReg131Label);
 		
-		holdReg131Box.add(holdRegStrut);
 		
         //Input Register 131 value
 		holdReg131ValLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
 		holdReg131Box.add(holdReg131ValLabel);
-		
-		inputPanel.add(createVerticalSpace());
-		
-		Component verticalGlue = Box.createVerticalGlue();
-		inputPanel.add(verticalGlue);
+
+		//Fill the rest of the panel for better component spacing.
+        inputPanel.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, Short.MAX_VALUE), new Dimension(0, Short.MAX_VALUE)));
+
     }
 
 
@@ -185,7 +183,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
 					}
 				});
 			}
-		}, 0, 1000);
+		}, 0, 200);
         
     }
 
@@ -197,7 +195,7 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution{
     }
 
     private void updateAllSignals() {
-        int[] tmpResult = updateSignal(readMode.COIL, 1);
+        int[] tmpResult = updateSignal(readMode.COIL, 16);
         di1Status = tmpResult[0];
         tmpResult = updateSignal(readMode.COIL, 2);
         di2Status = tmpResult[0];

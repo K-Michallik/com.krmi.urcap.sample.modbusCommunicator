@@ -59,4 +59,10 @@ public class Modbus4jUtils {
 		return value;
 	}
 
+	public static void setInputStatus (int slaveId, int offset, String ipAddr, boolean bValue)
+	throws ModbusTransportException, ErrorResponseException, ModbusInitException {
+		BaseLocator<Boolean> loc = BaseLocator.coilStatus(slaveId, offset);
+		getMaster(ipAddr).setValue(loc, bValue);
+	}
+
 }

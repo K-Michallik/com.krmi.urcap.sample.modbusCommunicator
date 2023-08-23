@@ -1,22 +1,17 @@
 package com.krmi.urcap.sample.modbusCommunicator.impl;
 
-import com.serotonin.modbus4j.code.DataType;
-import com.serotonin.modbus4j.exception.ModbusInitException;
-import com.serotonin.modbus4j.exception.ModbusTransportException;
-import com.ur.urcap.api.contribution.DaemonContribution;
+// import com.serotonin.modbus4j.code.DataType;
 import com.ur.urcap.api.contribution.InstallationNodeContribution;
 import com.ur.urcap.api.contribution.installation.CreationContext;
 import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
 import com.ur.urcap.api.domain.data.DataModel;
 import com.ur.urcap.api.domain.script.ScriptWriter;
-import com.ur.urcap.api.domain.userinteraction.inputvalidation.InputValidationFactory;
+// import com.ur.urcap.api.domain.userinteraction.inputvalidation.InputValidationFactory;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputCallback;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputFactory;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,9 +19,6 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 	public static final int PORT = 40405;
 	private static final String IP_ADDRESS = "IpAddress";
 	private static final String IP_ADDRESS_DEFAULT = "127.0.0.1";
-	private static final int slaveId = 255;
-	private static final int dType = DataType.TWO_BYTE_INT_SIGNED;
-	private static final String ENABLED_KEY = "enabled";
 	private static final String modbusReachable = "modbusReachable";
 
 	private DataModel model;
@@ -35,13 +27,13 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 	private Timer uiTimer;
 	private boolean pauseTimer = false;
 	private KeyboardInputFactory keyboardInputFactory;
-	private final InputValidationFactory inputValidationFactory;
+	// private final InputValidationFactory inputValidationFactory;
 
 	private Modbus4jUtils modbusClient = new Modbus4jUtils();
 
 	public ModbusCommInstallationNodeContribution(InstallationAPIProvider apiProvider, ModbusCommInstallationNodeView view, DataModel model, CreationContext context) {
 		keyboardInputFactory = apiProvider.getUserInterfaceAPI().getUserInteraction().getKeyboardInputFactory();
-		inputValidationFactory = apiProvider.getUserInterfaceAPI().getUserInteraction().getInputValidationFactory();
+		// inputValidationFactory = apiProvider.getUserInterfaceAPI().getUserInteraction().getInputValidationFactory();
 		this.view = view;
 		this.model = model;
 		if (context.getNodeCreationType() == CreationContext.NodeCreationType.NEW) {
@@ -82,41 +74,6 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 	public void generateScript(ScriptWriter writer) {
 
 	}
-
-	// private void updateUI() {
-	// 	String text = "";
-	// 	try {
-	// 		modbusClient.getMaster(getIpAddress()).testSlaveNode(0);
-	// 		text = "Connected to Modbus server.";
-	// 		modbusConnected = true;
-	// 	} catch (ModbusInitException e) {
-	// 		modbusConnected = false;
-	// 		text = "Could not connect to Modbus server; InitException.";
-	// 		// e.printStackTrace();
-	// 	} catch (Exception e) {
-	// 		modbusConnected = false;
-	// 		text = "Other catch exception";
-	// 		// e.printStackTrace();
-	// 	}
-	// 	if (modbusConnected){
-	// 		try {
-	// 			Number num000 = modbusClient.readHoldingRegister(slaveId, 250, dType, getIpAddress());
-	// 			System.out.println("Holding register 0 is: " + num000.toString());
-	// 			view.setStatusLabel(text);
-	// 		} catch (ModbusTransportException e) {
-	// 			modbusConnected = false;
-	// 			text = "Could not connect to Modbus server; TransportException.";
-	// 			view.setStatusLabel(text);
-	// 			// e.printStackTrace();
-	// 		} catch (Exception e) {
-	// 			modbusConnected = false;
-	// 			text = "Could not connect to Modbus server; general Exception.";
-	// 			view.setStatusLabel(text);
-	// 			// e.printStackTrace();
-	// 		}
-	// 	}
-
-	// }
 
 		private void updateUI() {
 		boolean state = model.get(modbusReachable, false);
@@ -169,10 +126,6 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 					}
 				}
 		}).start();
-	}
-
-	private Boolean isModbusEnabled() {
-		return model.get(ENABLED_KEY, true);
 	}
 	
 	//TODO: Add check to make sure modbus server is reachable.

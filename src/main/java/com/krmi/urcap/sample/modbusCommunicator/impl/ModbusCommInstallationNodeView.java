@@ -14,8 +14,6 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 
 	private final Style style;
 	private JTextField ipAddress = new JTextField();
-	private JButton startButton;
-	private JButton stopButton;
 	private JLabel statusLabel;
 	private Box ipBox;
 
@@ -48,7 +46,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		StyleConstants.setLineSpacing(attributeSet, 0.5f);
 		StyleConstants.setLeftIndent(attributeSet, 0f);
 		pane.setParagraphAttributes(attributeSet, false);
-		pane.setText("The popup title below is shared between all My Daemon program nodes.\nThe title cannot be empty.");
+		pane.setText("Enter the IP address of the Modbus server to connect to.");
 		pane.setEditable(false);
 		pane.setMaximumSize(pane.getPreferredSize());
 		pane.setBackground(infoBox.getBackground());
@@ -114,6 +112,5 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		else {
 			ipAddress.setBackground(Color.RED);
 		}
-		// ipBox.setOpaque(true);
 	}
 }
