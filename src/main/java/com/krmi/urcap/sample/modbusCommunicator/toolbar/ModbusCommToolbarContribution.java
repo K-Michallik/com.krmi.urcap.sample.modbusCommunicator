@@ -1,22 +1,19 @@
 package com.krmi.urcap.sample.modbusCommunicator.toolbar;
 
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Color;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import com.krmi.urcap.sample.modbusCommunicator.impl.Modbus4jUtils;
+
 import com.krmi.urcap.sample.modbusCommunicator.impl.ModbusCommInstallationNodeContribution;
 import com.krmi.urcap.sample.modbusCommunicator.signal.BooleanSignal;
 import com.krmi.urcap.sample.modbusCommunicator.signal.IntegerSignal;
-import com.serotonin.modbus4j.code.DataType;
 import com.ur.urcap.api.contribution.toolbar.ToolbarAPIProvider;
 import com.ur.urcap.api.contribution.toolbar.ToolbarContext;
 import com.ur.urcap.api.contribution.toolbar.swing.SwingToolbarContribution;
@@ -25,8 +22,6 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution {
 
     private final ToolbarAPIProvider apiProvider;
     private final ModbusCommInstallationNodeContribution contribution;
-    private static final int dType = DataType.TWO_BYTE_INT_SIGNED;
-    private Modbus4jUtils modbusClient = new Modbus4jUtils();
     private Timer uiTimer;
 
     private BooleanSignal di1Signal;
@@ -46,18 +41,24 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution {
 
     @Override
     public void buildUI(JPanel panel) {
-        panel.setLayout(new GridLayout(0, 1)); // One component per row
+        panel.setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Modbus Communicator");
         titleLabel.setFont(new Font("Roboto", Font.BOLD, 24));
         titleLabel.setVerticalAlignment(SwingConstants.TOP);
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(titleLabel);
+        titleLabel.setAlignmentX(SwingConstants.CENTER);
+        panel.add(titleLabel, BorderLayout.NORTH);
 
-        panel.add(di1Signal.getSignalBox());
-        panel.add(di2Signal.getSignalBox());
-        panel.add(holdReg130Signal.getSignalBox());
-        panel.add(holdReg131Signal.getSignalBox());
+        //Create a panel for the signals to be held.
+        JPanel signalsPanel = new JPanel(new GridLayout(0, 1));
+        signalsPanel.setBackground(new Color(170, 207, 233));
+
+        signalsPanel.add(di1Signal.getSignalBox());
+        signalsPanel.add(di2Signal.getSignalBox());
+        signalsPanel.add(holdReg130Signal.getSignalBox());
+        signalsPanel.add(holdReg131Signal.getSignalBox());
+
+        panel.add(signalsPanel, BorderLayout.CENTER);
     }
 
     @Override
