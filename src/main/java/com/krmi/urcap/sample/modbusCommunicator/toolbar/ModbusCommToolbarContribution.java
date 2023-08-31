@@ -43,10 +43,9 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution {
     public void buildUI(JPanel panel) {
         panel.setLayout(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("Modbus Communicator");
+        JLabel titleLabel = new JLabel("Modbus Communicator", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Roboto", Font.BOLD, 24));
         titleLabel.setVerticalAlignment(SwingConstants.TOP);
-        titleLabel.setAlignmentX(SwingConstants.CENTER);
         panel.add(titleLabel, BorderLayout.NORTH);
 
         //Create a panel for the signals to be held.
