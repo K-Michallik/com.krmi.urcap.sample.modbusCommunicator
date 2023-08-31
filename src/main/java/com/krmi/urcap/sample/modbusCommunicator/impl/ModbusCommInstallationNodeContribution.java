@@ -75,17 +75,17 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 
 	}
 
-		private void updateUI() {
-		boolean state = model.get(modbusReachable, false);
-		String text = "";
-		if (state) {
-			text = "Modbus server is reachable.";
-		} else {
-			text = "Modbus server is not reachable.";
-		}
+	private void updateUI() {
+	boolean state = model.get(modbusReachable, false);
+	String text = "";
+	if (state) {
+		text = "Modbus server is reachable.";
+	} else {
+		text = "Modbus server is not reachable.";
+	}
 
-		view.updateTextFieldColor(state);
-		view.setStatusLabel(text);
+	view.updateTextFieldColor(state);
+	view.setStatusLabel(text);
 	}
 
 	public KeyboardTextInput getKeyboardForIpAddress() {
@@ -126,6 +126,12 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 					}
 				}
 		}).start();
+	}
+
+	public void onCheckConnectionClick() {
+		view.setStatusLabel("Checking connection...");
+		validateIpAddress();
+		updateUI();
 	}
 	
 	//TODO: Add check to make sure modbus server is reachable.

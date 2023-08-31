@@ -9,6 +9,8 @@ import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ModbusCommInstallationNodeView implements SwingInstallationNodeView<ModbusCommInstallationNodeContribution> {
 
@@ -16,6 +18,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	private JTextField ipAddress = new JTextField();
 	private JLabel statusLabel;
 	private Box ipBox;
+	private JButton checkConnectionButton;
 
 
 	public ModbusCommInstallationNodeView(Style style) {
@@ -35,6 +38,10 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		panel.add(createVerticalSpacing());
 	
 		panel.add(createStatusInfo());
+
+		panel.add(createHorizontalSpacing());
+
+		panel.add(createCheckConnectionButton(contribution));
 	}
 
 	private Box createInfo() {
@@ -83,6 +90,17 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 		statusLabel = new JLabel("Modbus status");
 		box.add(statusLabel);
 		return box;
+	}
+
+	private JButton createCheckConnectionButton(final ModbusCommInstallationNodeContribution contribution) {
+		checkConnectionButton = new JButton("Check Connection");
+    	checkConnectionButton.addActionListener(new ActionListener() {
+    	    @Override
+    	    public void actionPerformed(ActionEvent e) {
+    	        contribution.onCheckConnectionClick();
+    	    }
+    	});
+    return checkConnectionButton;
 	}
 
 	private Component createHorizontalSpacing() {
