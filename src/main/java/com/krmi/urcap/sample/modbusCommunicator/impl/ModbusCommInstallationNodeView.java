@@ -39,7 +39,7 @@ public class ModbusCommInstallationNodeView implements SwingInstallationNodeView
 	
 		panel.add(createStatusInfo());
 
-		panel.add(createHorizontalSpacing());
+		panel.add(createVerticalSpacing());
 
 		panel.add(createCheckConnectionButton(contribution));
 	}
