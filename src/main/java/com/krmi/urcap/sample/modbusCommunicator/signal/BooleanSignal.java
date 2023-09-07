@@ -31,7 +31,7 @@ public class BooleanSignal extends Signal {
     public void updateSignal() {
         Boolean value;
         try {
-            value = Modbus4jUtils.readCoilStatus(slaveId, registerNum, ipAddress);
+            value = Modbus4jUtils.readCoilStatus(slaveId, registerNum, contribution.getIpAddress());
 
         } catch (Exception e) {
             value = null;

@@ -32,7 +32,7 @@ public class IntegerSignal extends Signal {
     public void updateSignal() {
         Integer value;
         try {
-            value = Modbus4jUtils.readInputRegisters(slaveId, registerNum, DataType.TWO_BYTE_INT_SIGNED, ipAddress).intValue();
+            value = Modbus4jUtils.readInputRegisters(slaveId, registerNum, DataType.TWO_BYTE_INT_SIGNED, contribution.getIpAddress()).intValue();
         } catch (Exception e) {
             value = null;
         }
