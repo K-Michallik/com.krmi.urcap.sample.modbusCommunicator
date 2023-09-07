@@ -10,7 +10,7 @@ public class BooleanSignal extends Signal {
 
     private String value;
     private final JLabel valueLabel;
-    private final Modbus4jUtils modbusClient;
+    // private final Modbus4jUtils modbusClient;
     private final int slaveId;
     private final int registerNum;
     private final ModbusCommInstallationNodeContribution contribution;
@@ -18,7 +18,7 @@ public class BooleanSignal extends Signal {
     public BooleanSignal(String name, int slaveId, int registerNum, ModbusCommInstallationNodeContribution contribution) {
         super(name);
         this.valueLabel = new JLabel();
-        this.modbusClient = new Modbus4jUtils();
+        // this.modbusClient = new Modbus4jUtils();
         this.slaveId = slaveId;
         this.registerNum = registerNum;
         this.contribution = contribution;
@@ -31,7 +31,8 @@ public class BooleanSignal extends Signal {
     public void updateSignal() {
         Boolean value;
         try {
-            value = modbusClient.readCoilStatus(slaveId, registerNum, contribution.getIpAddress());
+            value = Modbus4jUtils.readCoilStatus(slaveId, registerNum, ipAddress);
+
         } catch (Exception e) {
             value = null;
         }

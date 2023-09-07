@@ -12,18 +12,6 @@ public class Modbus4jUtils {
 	
 	static ModbusFactory modbusFactory = new ModbusFactory();
 	
-	public Modbus4jUtils() {
-		// TODO Auto-generated constructor stub
-		// if(modbusFactory ==  null) {
-		// 	modbusFactory = new ModbusFactory();
-		// }
-		// try {
-		// 	getMaster(ipAddr);
-		// } catch (ModbusInitException e) {
-		// 	// TODO Auto-generated catch block
-		// 	e.printStackTrace();
-		// }
-	}
 	public static ModbusMaster getMaster(String IPAddr) throws ModbusInitException {
 		IpParameters params = new IpParameters();
 		params.setHost(IPAddr);

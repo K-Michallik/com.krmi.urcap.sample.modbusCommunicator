@@ -29,7 +29,7 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 	private KeyboardInputFactory keyboardInputFactory;
 	// private final InputValidationFactory inputValidationFactory;
 
-	private Modbus4jUtils modbusClient = new Modbus4jUtils();
+	// private Modbus4jUtils modbusClient = new Modbus4jUtils();
 
 	public ModbusCommInstallationNodeContribution(InstallationAPIProvider apiProvider, ModbusCommInstallationNodeView view, DataModel model, CreationContext context) {
 		keyboardInputFactory = apiProvider.getUserInterfaceAPI().getUserInteraction().getKeyboardInputFactory();
@@ -111,7 +111,7 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 			public void run() {
 				try {
 					pauseTimer = true;
-					if (modbusClient.getMaster(getIpAddress()).testSlaveNode(0)) {
+					if (Modbus4jUtils.getMaster(getIpAddress()).testSlaveNode(0)) {
 						model.set(modbusReachable, true);
 					}
 					else {
@@ -134,7 +134,6 @@ public class ModbusCommInstallationNodeContribution implements InstallationNodeC
 		updateUI();
 	}
 	
-	//TODO: Add check to make sure modbus server is reachable.
 	public boolean isReachable() {
 		return model.isSet(IP_ADDRESS) && model.get(modbusReachable, false);
 	}
