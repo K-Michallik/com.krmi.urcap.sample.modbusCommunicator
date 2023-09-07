@@ -10,7 +10,7 @@ public class IntegerSignal extends Signal {
 
     private Integer value;
     private final JLabel valueLabel;
-    private final Modbus4jUtils modbusClient;
+    // private final Modbus4jUtils modbusClient;
     private final int slaveId;
     private final int registerNum;
     private final String ipAddress;
@@ -18,7 +18,7 @@ public class IntegerSignal extends Signal {
     public IntegerSignal(String name, int slaveId, int registerNum, String ipAddress) {
         super(name);
         this.valueLabel = new JLabel();
-        this.modbusClient = new Modbus4jUtils();
+        // this.modbusClient = new Modbus4jUtils();
         this.slaveId = slaveId;
         this.registerNum = registerNum;
         this.ipAddress = ipAddress;
@@ -31,7 +31,7 @@ public class IntegerSignal extends Signal {
     public void updateSignal() {
         Integer value;
         try {
-            value = modbusClient.readInputRegisters(slaveId, registerNum, DataType.TWO_BYTE_INT_SIGNED, ipAddress).intValue();
+            value = Modbus4jUtils.readInputRegisters(slaveId, registerNum, DataType.TWO_BYTE_INT_SIGNED, ipAddress).intValue();
         } catch (Exception e) {
             value = null;
         }
