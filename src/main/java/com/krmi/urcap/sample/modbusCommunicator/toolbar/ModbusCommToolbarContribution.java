@@ -33,10 +33,10 @@ public class ModbusCommToolbarContribution implements SwingToolbarContribution {
         apiProvider = context.getAPIProvider();
         this.contribution = apiProvider.getApplicationAPI().getInstallationNode(ModbusCommInstallationNodeContribution.class);
 
-        di1Signal = new BooleanSignal("Digital Input 1", 255, 1, contribution.getIpAddress());
-        di2Signal = new BooleanSignal("Digital Input 2", 255, 2, contribution.getIpAddress());
-        holdReg130Signal = new IntegerSignal("Register Input 130", 255, 130, contribution.getIpAddress());
-        holdReg131Signal = new IntegerSignal("Register Input 131", 255, 131, contribution.getIpAddress());
+        di1Signal = new BooleanSignal("Digital Input 1", 255, 1, contribution);
+        di2Signal = new BooleanSignal("Digital Input 2", 255, 2, contribution);
+        holdReg130Signal = new IntegerSignal("Register Input 130", 255, 130, contribution);
+        holdReg131Signal = new IntegerSignal("Register Input 131", 255, 131, contribution);
     }
 
     @Override

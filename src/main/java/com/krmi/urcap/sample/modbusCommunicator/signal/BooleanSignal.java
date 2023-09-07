@@ -4,6 +4,7 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 
 import com.krmi.urcap.sample.modbusCommunicator.impl.Modbus4jUtils;
+import com.krmi.urcap.sample.modbusCommunicator.impl.ModbusCommInstallationNodeContribution;
 
 public class BooleanSignal extends Signal {
 
@@ -12,15 +13,15 @@ public class BooleanSignal extends Signal {
     private final Modbus4jUtils modbusClient;
     private final int slaveId;
     private final int registerNum;
-    private final String ipAddress;
+    private final ModbusCommInstallationNodeContribution contribution;
 
-    public BooleanSignal(String name, int slaveId, int registerNum, String ipAddress) {
+    public BooleanSignal(String name, int slaveId, int registerNum, ModbusCommInstallationNodeContribution contribution) {
         super(name);
         this.valueLabel = new JLabel();
         this.modbusClient = new Modbus4jUtils();
         this.slaveId = slaveId;
         this.registerNum = registerNum;
-        this.ipAddress = ipAddress;
+        this.contribution = contribution;
 
         getSignalBox().add(Box.createHorizontalStrut(10)); 
         getSignalBox().add(valueLabel);
@@ -30,7 +31,7 @@ public class BooleanSignal extends Signal {
     public void updateSignal() {
         Boolean value;
         try {
-            value = modbusClient.readCoilStatus(slaveId, registerNum, ipAddress);
+            value = modbusClient.readCoilStatus(slaveId, registerNum, contribution.getIpAddress());
         } catch (Exception e) {
             value = null;
         }
